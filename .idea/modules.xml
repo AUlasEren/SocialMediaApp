@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/api-gateway-service/SocialMediaApp.api-gateway-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/api-gateway-service/SocialMediaApp.api-gateway-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth-service/SocialMediaApp.auth-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/auth-service/SocialMediaApp.auth-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/config-server-git/SocialMediaApp.config-server-git.main.iml" filepath="$PROJECT_DIR$/.idea/modules/config-server-git/SocialMediaApp.config-server-git.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/config-server/SocialMediaApp.config-server.main.iml" filepath="$PROJECT_DIR$/.idea/modules/config-server/SocialMediaApp.config-server.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mail-service/SocialMediaApp.mail-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/mail-service/SocialMediaApp.mail-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/user-service/SocialMediaApp.user-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/user-service/SocialMediaApp.user-service.main.iml" />
+    </modules>
+  </component>
+</project>
