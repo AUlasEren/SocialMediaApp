@@ -13,10 +13,31 @@ public class RabbitMqConfig {
     //auth microserviste olusturduğumuz kuyruğu user microserviste de configuration ayarları ile beraber olusturuyoruz
     @Value("${rabbitmq.queueRegister}")
     private String queueNameRegister;
+
+    @Value("${rabbitmq.queueRegisterElastic}")
+    private String elasticRegisterQueue;
+    @Value("${rabbitmq.elasticregisterkey}")
+    private String elasticRegisterBindingKey;
+    @Value("${rabbitmq.exchange-user}")
+    private String exchange;
     @Bean
     Queue registerQueue(){
         return new Queue(queueNameRegister);
     }
 
+    @Bean
+    Queue registerQueueElastic(){
+        return new Queue(elasticRegisterQueue);
+    }
+    @Bean
+    DirectExchange excahangeUser(){
 
+        return new DirectExchange(exchange);
+    }
+
+    @Bean
+    public Binding bindingRegisterElastic(final Queue registerQueueElastic, final DirectExchange excahangeUser){
+
+        return BindingBuilder.bind(registerQueueElastic).to(excahangeUser).with(elasticRegisterBindingKey);
+    }
 }

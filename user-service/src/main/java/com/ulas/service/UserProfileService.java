@@ -8,6 +8,7 @@ import com.ulas.exception.UserServiceException;
 import com.ulas.manager.IAuthManager;
 import com.ulas.mapper.IUserMapper;
 import com.ulas.rabbitmq.model.RegisterModel;
+import com.ulas.rabbitmq.producer.RegisterProducer;
 import com.ulas.repository.IUserProfileRepository;
 import com.ulas.repository.entity.UserProfile;
 import com.ulas.repository.enums.EStatus;
@@ -15,26 +16,28 @@ import com.ulas.utility.JwtTokenManager;
 import com.ulas.utility.ServiceManager;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class UserProfileService extends ServiceManager<UserProfile,Long> {
+public class UserProfileService extends ServiceManager<UserProfile,String> {
     private final IUserProfileRepository repository;
     private final JwtTokenManager tokenManager;
     private final IAuthManager authManager;
     private final CacheManager cacheManager;
+    private final RegisterProducer registerProducer;
 
-    public UserProfileService(IUserProfileRepository repository, JwtTokenManager tokenManager, IAuthManager authManager, CacheManager cacheManager) {
+    public UserProfileService(IUserProfileRepository repository, JwtTokenManager tokenManager, IAuthManager authManager, CacheManager cacheManager, RegisterProducer registerProducer) {
         super(repository);
         this.repository = repository;
         this.tokenManager = tokenManager;
         this.authManager = authManager;
         this.cacheManager = cacheManager;
+        this.registerProducer = registerProducer;
     }
 
     public Boolean createUser(NewCreateUSerRequestDto dto) {
@@ -46,9 +49,11 @@ public class UserProfileService extends ServiceManager<UserProfile,Long> {
         }
 
     }
+
     public Boolean createUserWithRabbitMq(RegisterModel model) {
         try{
-            save(IUserMapper.INSTANCE.toUserProfile(model));
+         UserProfile userProfile=save(IUserMapper.INSTANCE.toUserProfile(model));
+            registerProducer.sendNewUser(IUserMapper.INSTANCE.toRegisterElasticModel(userProfile));
             return true;
         }catch (Exception e){
             throw new UserServiceException(ErrorType.USER_NOT_CREATED);

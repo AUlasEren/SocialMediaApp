@@ -11,8 +11,8 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegisterModel implements Serializable {
-
+public class RegisterElasticModel implements Serializable {
+    private String id;
     private Long authId;
     private String username;
     private String email;

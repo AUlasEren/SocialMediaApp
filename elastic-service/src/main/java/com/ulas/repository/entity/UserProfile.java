@@ -4,12 +4,13 @@ import com.ulas.repository.enums.EStatus;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.elasticsearch.annotations.Document;
+
 @SuperBuilder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document
+@Document(indexName = "user_profile")
 @ToString
 public class UserProfile extends BaseEntity {
     @Id
