@@ -9,7 +9,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RegisterModel implements Serializable {
-    Long authId;
+    private Long authId;
     private String username;
     private String email;
 }

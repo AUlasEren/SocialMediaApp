@@ -14,6 +14,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -53,6 +54,7 @@ public class AuthController {
         return ResponseEntity.ok(authService.activateStatus(dto));
     }
 
+    @PreAuthorize("hasAnyAuthority('USER')")
     @GetMapping(FINDALL)
     public ResponseEntity<List<Auth>> findAll() {
         return ResponseEntity.ok(authService.findAll());
@@ -70,8 +72,9 @@ public class AuthController {
     public ResponseEntity<Long> createIdFromToken(String token){
         return ResponseEntity.ok(jwtTokenManager.getIdFromToken(token).get());
     }
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @GetMapping("/getrolefromtoken")
-    public ResponseEntity<String> createRoleFromToken(String token){
+    public ResponseEntity<String> getRoleFromToken(String token){
         return ResponseEntity.ok(jwtTokenManager.getRoleFromToken(token).get());
     }
 
