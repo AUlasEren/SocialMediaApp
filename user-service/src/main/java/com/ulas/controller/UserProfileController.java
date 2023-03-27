@@ -1,11 +1,13 @@
 package com.ulas.controller;
 
+import com.ulas.dto.request.ActivateStatusDto;
 import com.ulas.dto.request.NewCreateUSerRequestDto;
 import com.ulas.dto.request.UserProfileUpdateRequestDto;
 import com.ulas.repository.entity.UserProfile;
 import com.ulas.service.UserProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serial;
@@ -24,11 +26,12 @@ public class UserProfileController {
         return ResponseEntity.ok(userProfileService.createUser(dto));
     }
 
-    @GetMapping(ACTIVATESTATUS+"/{authId}")
-    public ResponseEntity<Boolean> activateStatus(@PathVariable Long authId){
-    return ResponseEntity.ok(userProfileService.activateStatus(authId));
+    @PostMapping(ACTIVATESTATUS)
+    public ResponseEntity<Boolean> activateStatus(@RequestBody ActivateStatusDto dto) {
+        return ResponseEntity.ok(userProfileService.activateStatus(dto));
     }
     @GetMapping(FINDALL)
+    @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<List<UserProfile>> findAll(){
         return ResponseEntity.ok(userProfileService.findAll());
     }

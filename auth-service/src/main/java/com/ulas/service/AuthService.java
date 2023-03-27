@@ -91,16 +91,17 @@ public class AuthService extends ServiceManager<Auth,Long> {
 
     public Boolean activateStatus(ActivateRequestDto dto) {
         Optional<Auth> auth = findById(dto.getId());
-        if(auth.isEmpty()){
+        if (auth.isEmpty()) {
             throw new AuthServiceException(ErrorType.USER_NOT_FOUND);
         }
-        if(dto.getActivationCode().equals(auth.get().getActivationCode())){
+        if (dto.getActivationCode().equals(auth.get().getActivationCode())) {
             auth.get().setStatus(EStatus.ACTIVE);
             update(auth.get());
             //user service e istek atılacak
-            userManager.activateStatus(auth.get().getId());
+            String token = tokenManager.createToken(auth.get().getId(),auth.get().getRole()).get();
+                    userManager.activateStatus(ActivateStatusDto.builder().token(token).build());
             return true;
-        }else {
+        } else {
             throw new AuthServiceException(ErrorType.ACTIVATE_CODE_ERROR);
         }
     }

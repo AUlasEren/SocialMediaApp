@@ -1,5 +1,6 @@
 package com.ulas.manager;
 
+import com.ulas.dto.request.ActivateStatusDto;
 import com.ulas.dto.request.NewCreateUSerRequestDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -11,8 +12,8 @@ import static com.ulas.constants.ApiUrls.*;
 public interface IUserManager {
     @PostMapping(CREATE)
     public ResponseEntity<Boolean> createUser(@RequestBody NewCreateUSerRequestDto dto);
-    @GetMapping(ACTIVATESTATUS+"/{authId}")
-    public ResponseEntity<Boolean> activateStatus(@PathVariable Long authId);
+    @PostMapping (ACTIVATESTATUS)
+    public ResponseEntity<Boolean> activateStatus(@RequestBody ActivateStatusDto dto);
     @DeleteMapping(DELETEBYID)
     public ResponseEntity<Boolean> delete(@RequestParam Long authId);
 }

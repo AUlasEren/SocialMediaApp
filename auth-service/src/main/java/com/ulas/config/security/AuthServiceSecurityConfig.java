@@ -17,7 +17,7 @@ public class AuthServiceSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.csrf().disable();
-        httpSecurity.authorizeRequests().antMatchers("/v3/api-docs/**","/swagger-ui/**","/api/v1/auth/dologin","/api/v1/auth/registerrabitmq","/api/v1/auth/activatestatus").permitAll().anyRequest().authenticated();
+        httpSecurity.authorizeRequests().antMatchers("/v3/api-docs/**","/swagger-ui/**","/api/v1/auth/dologin","/api/v1/auth/registerrabbitmq","/api/v1/auth/activatestatus").permitAll().anyRequest().authenticated();
         httpSecurity.addFilterBefore(getJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }

@@ -1,5 +1,6 @@
 package com.ulas.service;
 
+import com.ulas.dto.request.ActivateStatusDto;
 import com.ulas.dto.request.NewCreateUSerRequestDto;
 import com.ulas.dto.request.UpdateEmailOrUsernameRequestDto;
 import com.ulas.dto.request.UserProfileUpdateRequestDto;
@@ -60,8 +61,12 @@ public class UserProfileService extends ServiceManager<UserProfile,String> {
 
     }
 
-    public Boolean activateStatus(Long authId) {
-        Optional<UserProfile> userProfile = repository.findOptionalByAuthId(authId);
+    public Boolean activateStatus(ActivateStatusDto dto) {
+        Optional<Long> authId = tokenManager.getIdFromToken(dto.getToken());
+        if(authId.isEmpty()){
+            throw new UserServiceException(ErrorType.INVALID_TOKEN);
+        }
+        Optional<UserProfile> userProfile = repository.findOptionalByAuthId(authId.get());
         if(userProfile.isEmpty()){
             throw new UserServiceException(ErrorType.USER_NOT_FOUND);
         }
