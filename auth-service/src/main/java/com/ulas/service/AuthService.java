@@ -99,7 +99,7 @@ public class AuthService extends ServiceManager<Auth,Long> {
             update(auth.get());
             //user service e istek atılacak
             String token = tokenManager.createToken(auth.get().getId(),auth.get().getRole()).get();
-                    userManager.activateStatus(ActivateStatusDto.builder().token(token).build());
+                    userManager.activateStatus("Bearer "+token);
             return true;
         } else {
             throw new AuthServiceException(ErrorType.ACTIVATE_CODE_ERROR);

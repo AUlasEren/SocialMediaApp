@@ -12,8 +12,8 @@ import static com.ulas.constants.ApiUrls.*;
 public interface IUserManager {
     @PostMapping(CREATE)
     public ResponseEntity<Boolean> createUser(@RequestBody NewCreateUSerRequestDto dto);
-    @PostMapping (ACTIVATESTATUS)
-    public ResponseEntity<Boolean> activateStatus(@RequestBody ActivateStatusDto dto);
+    @PostMapping(ACTIVATESTATUS)
+    public ResponseEntity<Boolean> activateStatus(@RequestHeader(value = "Authorization")String token);
     @DeleteMapping(DELETEBYID)
     public ResponseEntity<Boolean> delete(@RequestParam Long authId);
 }

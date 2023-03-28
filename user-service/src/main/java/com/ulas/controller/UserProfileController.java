@@ -27,8 +27,8 @@ public class UserProfileController {
     }
 
     @PostMapping(ACTIVATESTATUS)
-    public ResponseEntity<Boolean> activateStatus(@RequestBody ActivateStatusDto dto) {
-        return ResponseEntity.ok(userProfileService.activateStatus(dto));
+    public ResponseEntity<Boolean> activateStatus(@RequestHeader(value = "Authorization")String token) {
+        return ResponseEntity.ok(userProfileService.activateStatus(token));
     }
     @GetMapping(FINDALL)
     @PreAuthorize("hasAuthority('USER')")

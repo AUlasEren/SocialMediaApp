@@ -61,8 +61,8 @@ public class UserProfileService extends ServiceManager<UserProfile,String> {
 
     }
 
-    public Boolean activateStatus(ActivateStatusDto dto) {
-        Optional<Long> authId = tokenManager.getIdFromToken(dto.getToken());
+    public Boolean activateStatus(String token) {
+        Optional<Long> authId = tokenManager.getIdFromToken(token.substring(7));
         if(authId.isEmpty()){
             throw new UserServiceException(ErrorType.INVALID_TOKEN);
         }
