@@ -2,7 +2,8 @@ package com.ulas.constants;
 
 public class ApiUrls {
     public static final String VERSION = "api/v1";
-    public static final String USER = VERSION+"/user";
+    public static final String USER =VERSION +"/user";
+    public static final String FOLLOW = VERSION+"/follow";
     public static final String API = "/api";
 
     public static final String AUTH = "/auth";
@@ -18,4 +19,6 @@ public class ApiUrls {
     public static final String GETBYAD = "/getbyad";
     public static final String REGISTER = "/register";
     public static final String DOLOGIN = "/dologin";
+
+
 }

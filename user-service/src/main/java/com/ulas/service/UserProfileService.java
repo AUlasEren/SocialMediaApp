@@ -137,4 +137,8 @@ public class UserProfileService extends ServiceManager<UserProfile,String> {
                 .collect(Collectors.toList());
 
     }
+
+    public Optional<UserProfile> findByAuthId(Long authId) {
+        return repository.findOptionalByAuthId(authId);
+    }
 }

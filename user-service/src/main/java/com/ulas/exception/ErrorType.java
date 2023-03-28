@@ -14,7 +14,8 @@ public enum ErrorType {
     USERNAME_DUPLICATE(4210,"Böyle bir kullanıcı adı mevcut",HttpStatus.BAD_REQUEST),
     USER_NOT_FOUND(4211,"Böyle bir kullanıcı bulunamadi" ,HttpStatus.NOT_FOUND),
     USER_NOT_CREATED(4212,"Kullanıcı olusturalamadı" ,HttpStatus.BAD_REQUEST),
-    INVALID_TOKEN(4213,"Geçersiz Token" ,HttpStatus.BAD_REQUEST );
+    INVALID_TOKEN(4213,"Geçersiz Token" ,HttpStatus.BAD_REQUEST ),
+    FOLLOW_ALREADY_EXIST(4214,"Böyle bir takip istedği daha önce oluşturulmuştur" ,HttpStatus.BAD_REQUEST );
 
     private int code;
     private String message;
