@@ -16,4 +16,5 @@ public class RedisConfiguration {
         return new LettuceConnectionFactory(new RedisStandaloneConfiguration("localhost",6379));
     }
 
+
 }

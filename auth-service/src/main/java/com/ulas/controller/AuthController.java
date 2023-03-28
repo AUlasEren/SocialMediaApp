@@ -75,8 +75,9 @@ public class AuthController {
         return ResponseEntity.ok(jwtTokenManager.getRoleFromToken(token).get());
     }
 
+
     @PutMapping("/updateemailorusername")
-    public ResponseEntity<Boolean> updateEmailOrUsername(@RequestBody UpdateEmailOrUsernameRequestDto dto){
+    public ResponseEntity<Boolean> updateEmailOrUsername(@RequestHeader(value = "Authorization") String token,@RequestBody UpdateEmailOrUsernameRequestDto dto){
         return ResponseEntity.ok(authService.updateEmailOrUsername(dto));
     }
     @DeleteMapping(DELETEBYID)
@@ -111,7 +112,7 @@ public class AuthController {
 
     }
     @GetMapping(FINDBYROLE)
-    public ResponseEntity<List<Long>> findbyRole(@RequestParam String role){
+    public ResponseEntity<List<Long>> findbyRole(@RequestHeader(value = "Authorization") String token, @RequestParam String role){
         return ResponseEntity.ok(authService.findByRole(role));
     }
 

@@ -90,7 +90,7 @@ public class UserProfileService extends ServiceManager<UserProfile,String> {
             userProfile.get().setEmail(dto.getEmail());
             UpdateEmailOrUsernameRequestDto updateEmailOrUsernameRequest = IUserMapper.INSTANCE.toUpdateEmailOrUsernameRequest(dto);
             updateEmailOrUsernameRequest.setAutId(authId.get());
-            authManager.updateEmailOrUsername(updateEmailOrUsernameRequest);
+            authManager.updateEmailOrUsername("Bearer "+dto.getToken(),updateEmailOrUsernameRequest);
         }
 
         userProfile.get().setPhone(dto.getPhone());
@@ -124,14 +124,14 @@ public class UserProfileService extends ServiceManager<UserProfile,String> {
 
     }
     @Cacheable(value="findbyrole",key = "#role.toUpperCase()")
-    public List<UserProfile> findByRole(String role){
+    public List<UserProfile> findByRole(String role,String token){
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
         //ResponseEntity<List<Long>> authIds= authManager.findbyRole(role);
-        List<Long> authIds= authManager.findbyRole(role).getBody();
+        List<Long> authIds= authManager.findbyRole(token,role).getBody();
         return authIds.stream().map(x-> repository.findOptionalByAuthId(x)
                         .orElseThrow(()->{throw new UserServiceException(ErrorType.USER_NOT_FOUND);}))
                 .collect(Collectors.toList());

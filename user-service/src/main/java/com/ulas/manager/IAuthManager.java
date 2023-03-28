@@ -3,10 +3,7 @@ package com.ulas.manager;
 import com.ulas.dto.request.UpdateEmailOrUsernameRequestDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,7 +13,7 @@ import static com.ulas.constants.ApiUrls.FINDBYROLE;
 public interface IAuthManager {
 
     @PutMapping("/updateemailorusername")
-    public ResponseEntity<Boolean> updateEmailOrUsername(@RequestBody UpdateEmailOrUsernameRequestDto dto);
+    public ResponseEntity<Boolean> updateEmailOrUsername(@RequestHeader(value = "Authorization") String token,@RequestBody UpdateEmailOrUsernameRequestDto dto);
     @GetMapping(FINDBYROLE)
-    public ResponseEntity<List<Long>> findbyRole(@RequestParam String role);
+    public ResponseEntity<List<Long>> findbyRole(@RequestHeader(value = "Authorization") String token, @RequestParam String role);
 }
