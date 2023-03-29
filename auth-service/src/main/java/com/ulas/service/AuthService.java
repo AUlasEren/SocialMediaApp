@@ -16,6 +16,7 @@ import com.ulas.utility.CodeGenerator;
 import com.ulas.utility.JwtTokenManager;
 import com.ulas.utility.ServiceManager;
 import org.springframework.cache.CacheManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,8 +33,9 @@ public class AuthService extends ServiceManager<Auth,Long> {
     private final CacheManager cacheManager;
     private final RegisterProducer registerProducer;
     private final RegisterMailProducer mailProducer;
+    private final PasswordEncoder passwordEncoder;
 
-    public AuthService(IAuthRepository repository, IUserManager userManager, JwtTokenManager tokenManager, CacheManager cacheManager, RegisterProducer registerProducer, RegisterMailProducer mailProducer) {
+    public AuthService(IAuthRepository repository, IUserManager userManager, JwtTokenManager tokenManager, CacheManager cacheManager, RegisterProducer registerProducer, RegisterMailProducer mailProducer, PasswordEncoder passwordEncoder) {
         super(repository);
         this.repository = repository;
         this.userManager= userManager;
@@ -41,6 +43,7 @@ public class AuthService extends ServiceManager<Auth,Long> {
         this.cacheManager = cacheManager;
         this.registerProducer = registerProducer;
         this.mailProducer = mailProducer;
+        this.passwordEncoder = passwordEncoder;
     }
     @Transactional
     public RegisterResponseDto register(RegisterRequestDto dto){
@@ -60,6 +63,7 @@ public class AuthService extends ServiceManager<Auth,Long> {
     }
     @Transactional
     public RegisterResponseDto registerwithRabbitMq(RegisterRequestDto dto){
+        dto.setPassword(passwordEncoder.encode(dto.getPassword()));
         Auth auth = IAuthMapper.INSTANCE.toAuth(dto);
         auth.setActivationCode(CodeGenerator.generateCode());
         try{
@@ -78,8 +82,8 @@ public class AuthService extends ServiceManager<Auth,Long> {
     }
 
     public String doLogin(DoLoginRequestDto dto) {
-        Optional<Auth> auth = repository.findOptionalByUsernameAndPassword(dto.getUsername(), dto.getPassword());
-        if(auth.isEmpty()){
+        Optional<Auth> auth = repository.findOptionalByUsername(dto.getUsername());
+        if(auth.isEmpty()|| passwordEncoder.matches(dto.getPassword(),auth.get().getPassword())){
            throw new AuthServiceException(ErrorType.LOGIN_ERROR);
         }
         if(!auth.get().getStatus().equals(EStatus.ACTIVE)){

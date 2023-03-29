@@ -11,6 +11,7 @@
         <module name="SocialMediaApp.config-server-git.main" />
         <module name="SocialMediaApp.mail-service.main" />
         <module name="SocialMediaApp.config-server.main" />
+        <module name="SocialMediaApp.post-service.main" />
         <module name="SocialMediaApp.main" />
         <module name="SocialMediaApp.elastic-service.main" />
         <module name="SocialMediaApp.api-gateway-service.main" />
